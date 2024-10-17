@@ -1,3 +1,10 @@
+:root {
+    --primary-color: #3498db;
+    --indicator-bottom: 1rem;
+    --slide-padding: 1rem;
+    --indicator-height: 0.1875rem;
+}
+
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -8,6 +15,7 @@
 
 html {
     font-size: 100%;
+    font-weight: 400;
     color: black;
     background-color: white;
 }
@@ -29,6 +37,14 @@ input, button, textarea, select {
 
 p, h1, h2, h3, h4, h5, h6 {
     overflow-wrap: break-word;
+}
+
+button {
+    transition: transform 0.1s ease;
+}
+
+button:active {
+    transform: scale(0.95);
 }
 
 nav {
@@ -56,18 +72,24 @@ aside {
     display: none;
 }
 
-header {
-    margin-top: 0.5rem;
-    font-size: 1.0625rem;
-    line-height: 1.25rem;
-    margin-bottom: 0.75rem;
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 1.3125rem;
 }
 
+#summary-container h2 {
+    font-size: 1.0625rem;
+    line-height: 1.25rem;
+}
+
+/*Summary styles*/
+/*TODO: Add hover styles*/
 #summary-container {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    margin-bottom: 1.3125rem;
+    margin-top: 0.5rem;
 }
 
 .summary-card {
@@ -93,7 +115,7 @@ header {
     align-items: center;
 }
 
-.summary-card-body p{
+.summary-card-body p {
     color: #334155;
     font-size: 1.25rem;
     line-height: 2rem;
@@ -111,6 +133,128 @@ header {
     line-height: 0.75rem;
     font-weight: 600;
 }
+/*Summary styles*/
+
+
+.event-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.3125rem;
+}
+
+/*Chart styles*/
+.chart-container h2 {
+    font-weight: 500;
+    font-size: 1.0625rem;
+    line-height: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.chart-container #chart {
+    border: 1px solid #F2F2F7;
+    border-radius: 0.125rem;
+    padding-right: 0.5rem;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/*Chart styles*/
+
+/*Slide styles*/
+.slide {
+    position: relative;
+    isolation: isolate;
+}
+
+.slide-body {
+    width: 100%;
+    border-radius: 0.3125rem;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+}
+
+.slide-body .slide-item {
+    position: relative;
+    isolation: isolate;
+    grid-area: 1 / 1;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.slide-body .slide-item.active {
+    opacity: 1;
+}
+
+.slide-body .slide-item img {
+    height: 320px;
+    max-height: 320px;
+    object-fit: cover;
+    filter: brightness(0.9);
+}
+
+.slide-body .slide-item div {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: var(--slide-padding) var(--slide-padding) var(--indicator-bottom);
+}
+
+.slide-body .slide-item div > * {
+    font-size: 0.8rem;
+    line-height: 1rem;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.slide-body .slide-item div h3 {
+    font-weight: 600;
+}
+
+.slide-body .slide-item div p {
+    margin-bottom: calc(0.5rem + var(--indicator-height));
+}
+
+.slide-controls {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 var(--slide-padding);
+}
+
+.slide-controls button {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background-color: white;
+    border: 1px solid #E2E8F0;
+}
+
+.slide-indicators {
+    position: absolute;
+    bottom: var(--indicator-bottom);
+    display: flex;
+    gap: 0.25rem;
+    justify-content: center;
+    width: 100%;
+}
+
+.slide-indicators span {
+    width: 0.75rem;
+    height: var(--indicator-height);
+    border-radius: 100px;
+    background-color: #FFF;
+    opacity: 0.3;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.slide-indicators span.active {
+    opacity: 1;
+}
+/*Slide styles*/
 
 /* Reusable styles */
 .container {

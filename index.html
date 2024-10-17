@@ -6,7 +6,8 @@
     <title>Event Management Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+          rel="stylesheet">
     <link rel="stylesheet" href="index.css"/>
 </head>
 <body>
@@ -38,30 +39,54 @@
     </div>
 </aside>
 <main>
-    <header class="container">Welcome! here’s your summary</header>
     <!--  Summary  -->
     <section id="summary-container" class="container">
+        <h2>Welcome! here’s your summary</h2>
         <!--    Use Javascript to populate the fields    -->
     </section>
     <!--  Summary  -->
 
     <!--  Events Info  -->
-    <section class="container">
+    <section class="event-info container">
         <!--   Chart     -->
-        <div>
+        <div class="chart-container">
             <h2>Event Registrations per month</h2>
+            <canvas id="chart"></canvas>
         </div>
         <!--   Chart     -->
 
         <!--   Slider     -->
-        <div></div>
+        <div class="slide">
+            <div class="slide-body">
+                <!--    Use Javascript to populate the fields    -->
+            </div>
+            <div class="slide-controls">
+                <button class="left">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.625 4.375L4.875 6L6.625 7.625" stroke="#334155" stroke-width="1.5"
+                              stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+
+                <button class="right">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5.375 4.375L7.125 6L5.375 7.625" stroke="#334155" stroke-width="1.5"
+                              stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="slide-indicators">
+                <!--    Use Javascript to populate the fields    -->
+            </div>
+        </div>
         <!--   Slider     -->
 
     </section>
     <!--  Events Info  -->
 
     <!--  Events History  -->
-    <section>
+    <section id="event-history" class="container">
+        <h2>Events History</h2>
         <!--  Toolbar  -->
         <div>
             <div>
@@ -158,6 +183,7 @@
     </section>
     <!--  Events History  -->
 </main>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="index.js"></script>
 </body>
 </html>

@@ -63,9 +63,200 @@ function initSummarySection() {
     }
 }
 
+// Chart Section
+function initChart() {
+    const ctx = document.getElementById('chart');
 
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Ja', 'Fb', 'Mr', 'Ap', 'Ma', 'Jn', 'Jl', 'Au', 'Se', 'Oc', 'No', 'De'],
+            datasets: [{
+                data: [666.65, 935.12, 774.32, 434.8, 1000, 571.78, 863.67, 363.35, 851.72, 667.08, 958.96, 607.51],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 1000,
+                    border: {
+                        display: false,
+                        dash: [7, 15],
+                        width: 2,
+                    },
+                    grid: {
+                        display: true,
+                        drawTicks: false,
+                        color: "#E2E8F0",
+                        offset: true,
+                    },
+                    type: 'linear',
+                    ticks: {
+                        stepSize: 200,
+                        color: '#64748B',
+                        font: {
+                            size: 10,
+                            weight: '400',
+                            family: 'Inter',
+                        },
+                        padding: 16,
+                    },
+                },
+                x: {
+                    grid: {
+                        display: true,
+                        drawTicks: false,
+                        color: (context) => {
+                            // Hide every odd grid line, only show even ones
+                            return context.index % 2 === 0 ? '#E2E8F0' : 'transparent';
+                        },
+                        offset: true
+                    },
+                    border: {
+                        display: false,
+                        dash: [7, 15],
+                        width: 2,
+                    },
+                    ticks: {
+                        color: '#64748B',
+                        font: {
+                            size: 10,
+                            weight: '400',
+                            family: 'Inter',
+                        },
+                        padding: 16,
+                    }
+                },
+            },
+            responsive: true,
+            aspectRatio: 1.27,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            elements: {
+                bar: {
+                    backgroundColor: "#8576FF",
+                    borderWidth: 16.39,
+                    borderRadius: 1,
+                }
+            }
+        }
+    });
+}
+
+// Slider Section
+function createSlider({title, content, imgSrc}) {
+    const slide = document.createElement('div');
+    slide.classList.add("slide-item");
+
+    slide.innerHTML = `
+        <img src="${imgSrc}" alt="${title}">
+        <div>
+            <h3>${title}</h3>
+            <p>${content}</p>
+        </div>
+    `
+    return slide
+}
+
+function initSlider() {
+    const slideContents = [
+        {
+            "title": "Latest News & Updates",
+            "content": `Turpis interdum nunc varius ornare dignissim pretium. Massa ornare quis aliquet sed vitae.
+                            Sed velit nisi, fermentum erat. Fringilla purus, erat fringilla tincidunt quisque non.
+                            Pellentesque in ut tellus.`,
+            "imgSrc": "media/slide1.png"
+        },
+        {
+            "title": "Latest News & Updates",
+            "content": `Turpis interdum nunc varius ornare dignissim pretium. Massa ornare quis aliquet sed vitae.
+                            Sed velit nisi, fermentum erat. Fringilla purus, erat fringilla tincidunt quisque non.
+                            Pellentesque in ut tellus.`,
+            "imgSrc": "media/slide2.png"
+        },
+        {
+            "title": "Latest News & Updates",
+            "content": `Turpis interdum nunc varius ornare dignissim pretium. Massa ornare quis aliquet sed vitae.
+                            Sed velit nisi, fermentum erat. Fringilla purus, erat fringilla tincidunt quisque non.
+                            Pellentesque in ut tellus.`,
+            "imgSrc": "media/slide3.png"
+        }
+    ]
+    const slideBody = document.querySelector(".slide-body")
+    const slideIndicator = document.querySelector('.slide-indicators')
+
+    for (let content of slideContents) {
+        slideBody.appendChild(createSlider(content))
+        slideIndicator.appendChild(document.createElement("span"))
+    }
+    slideBody.setAttribute("data-count", slideContents.length.toString())
+    changeSlide(0)
+
+    // Add listeners
+    slideBody.addEventListener("mouseenter", restartSlideShow)
+    slideBody.addEventListener("mouseleave", restartSlideShow)
+    document.querySelector('.slide-controls .left').addEventListener('click', prevSlide)
+    document.querySelector('.slide-controls .right').addEventListener('click', nextSlide)
+}
+
+function changeSlide(position) {
+    const slideBody = document.querySelector(".slide-body")
+    const slides = slideBody.querySelectorAll('.slide-item')
+    const activeSlide = slideBody.querySelector('.slide-item.active')
+
+    const slideIndicators = document.querySelectorAll('.slide-indicators span')
+    const activeIndicator = document.querySelector('.slide-indicators span.active')
+
+    activeSlide?.classList.remove('active')
+    activeIndicator?.classList.remove('active')
+
+    slides.item(position).classList.add('active')
+    slideIndicators.item(position).classList.add('active')
+
+    slideBody.setAttribute("data-active", position)
+    restartSlideShow()
+}
+
+let interval;
+
+function nextSlide() {
+    const slideBody = document.querySelector(".slide-body")
+    const activeIndex = +slideBody.dataset.active
+    const count = +slideBody.dataset.count
+    changeSlide((activeIndex+1) % count)
+}
+
+function prevSlide() {
+    const slideBody = document.querySelector(".slide-body")
+    const activeIndex = +slideBody.dataset.active
+    const count = +slideBody.dataset.count
+    const position = activeIndex === 0 ? count -1 : activeIndex-1
+    changeSlide(position % count)
+}
+
+// Start the automatic slide show
+function startSlideShow() {
+    interval = setInterval(nextSlide, 4000); // Change slide every 3 seconds
+}
+
+// Restart the slide show (clears and resets interval)
+function restartSlideShow() {
+    clearInterval(interval);
+    startSlideShow();
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize summary
     initSummarySection()
+
+    //Initialize chart
+    initChart()
+
+    // Initialize slider
+    initSlider()
 })
