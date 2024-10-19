@@ -1,0 +1,186 @@
+.event-info > div {
+    display: flex;
+    flex-direction: column;
+    gap: 1.3125rem;
+}
+
+.event-info > div > .chart-container {
+    height: 320px;
+}
+
+.event-info > div > .chart-container #chart {
+    min-height: 320px;
+}
+
+/*Chart styles*/
+.event-info h2 {
+    font-weight: 500;
+    font-size: 1.0625rem;
+    line-height: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.chart-container {
+    border: 1px solid #F2F2F7;
+    border-radius: 0.125rem;
+    padding-right: 0.5rem;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: grid;
+    place-content: center;
+}
+
+/*Chart styles*/
+
+/*Slide styles*/
+.slide {
+    position: relative;
+    isolation: isolate;
+}
+
+.slide-body {
+    width: 100%;
+    border-radius: 0.3125rem;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+}
+
+.slide-body .slide-item {
+    position: relative;
+    isolation: isolate;
+    grid-area: 1 / 1;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.slide-body .slide-item.active {
+    opacity: 1;
+}
+
+
+.slide-body .slide-item {
+    height: 320px;
+    max-height: 320px;
+}
+
+.slide-body .slide-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.9);
+}
+
+.slide-body .slide-item div {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: var(--slide-padding) var(--slide-padding) var(--indicator-bottom);
+}
+
+.slide-body .slide-item div > * {
+    font-size: 0.8rem;
+    line-height: 1rem;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.slide-body .slide-item div h3 {
+    font-weight: 600;
+}
+
+.slide-body .slide-item div p {
+    margin-bottom: calc(0.5rem + var(--indicator-height));
+}
+
+.slide-controls {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 var(--slide-padding);
+}
+
+.slide-controls button {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background-color: white;
+    border: 1px solid #E2E8F0;
+    display: grid;
+    place-content: center;
+}
+
+.slide-indicators {
+    position: absolute;
+    bottom: var(--indicator-bottom);
+    display: flex;
+    gap: 0.25rem;
+    justify-content: center;
+    width: 100%;
+}
+
+.slide-indicators span {
+    width: 0.75rem;
+    height: var(--indicator-height);
+    border-radius: 100px;
+    background-color: #FFF;
+    opacity: 0.3;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.slide-indicators span.active {
+    opacity: 1;
+}
+
+@media screen and (min-width: 768px) {
+    .event-info > div > * {
+        width: 100%;
+        height: 250px !important;
+    }
+
+    .event-info > div {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .slide-controls {
+        top: 45%;
+    }
+
+    .event-info > div > .chart-container #chart {
+        min-height: 200px;
+    }
+
+    .slide-body .slide-item {
+        height: 250px;
+        width: 100%;
+        max-height: none;
+    }
+
+}
+
+@media screen and (min-width: 992px) {
+    .event-info > div > * {
+        height: 320px !important;
+    }
+    .event-info h2 {
+        font-size: 1.125rem;
+        line-height: 0.75rem;
+        margin-bottom: 0.875rem;
+    }
+
+    .event-info > div > .chart-container #chart {
+        min-height: 320px;
+    }
+
+    .slide-body .slide-item {
+        height: 320px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+
+}

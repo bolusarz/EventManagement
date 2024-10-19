@@ -1,0 +1,57 @@
+@import url("./base.css");
+
+nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem;
+    align-items: center;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+nav img {
+    width: 64px;
+    height: 32px;
+    object-fit: cover;
+    object-position: center;
+}
+
+nav button {
+    background: none;
+    border: none;
+    width: 24px;
+    height: 24px;
+    display: grid;
+    place-items: center;
+    isolation: isolate;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+nav button > * {
+    grid-area: 1 / 1;
+}
+
+nav button svg:first-of-type {
+    opacity: 1;
+}
+
+nav button svg:last-of-type {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+nav[aria-expanded=true] svg:first-of-type{
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+nav[aria-expanded=true] svg:last-of-type {
+    opacity: 1;
+    transform: scale(1);
+}
+
+@media screen and (min-width: 992px) {
+    nav {
+        display: none;
+    }
+}

@@ -1,3 +1,25 @@
+
+// Sidebar section
+function initSidebar() {
+    const sidebar = document.querySelector("aside");
+    const nav = document.querySelector("nav");
+
+    const toggleSidebar = () => {
+        const isOpen = sidebar.getAttribute("aria-expanded") === "true"
+        if (isOpen) {
+            document.body.style.overflow = "auto"
+            nav.setAttribute("aria-expanded", "false")
+            sidebar.setAttribute("aria-expanded", "false")
+        } else {
+            document.body.style.overflow = "hidden"
+            nav.setAttribute("aria-expanded", "true")
+            sidebar.setAttribute("aria-expanded", "true")
+        }
+    }
+    document.querySelector("nav button").addEventListener("click", toggleSidebar)
+    document.querySelector("aside button.collapse").addEventListener("click", toggleSidebar)
+}
+
 // Summary Section
 function createSummaryCard({ title, value, percentage, isPositive }) {
     const card = document.createElement('div');
@@ -32,7 +54,7 @@ function createSummaryCard({ title, value, percentage, isPositive }) {
 }
 
 function initSummarySection() {
-    const parent = document.querySelector("#summary-container")
+    const parent = document.querySelector("#summaries")
     const summaryDetails = [
         {
             title: 'Total Events',
@@ -67,7 +89,7 @@ function initSummarySection() {
 function initChart() {
     const ctx = document.getElementById('chart');
 
-    new Chart(ctx, {
+    const chart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: ['Ja', 'Fb', 'Mr', 'Ap', 'Ma', 'Jn', 'Jl', 'Au', 'Se', 'Oc', 'No', 'De'],
@@ -132,6 +154,7 @@ function initChart() {
             },
             responsive: true,
             aspectRatio: 1.27,
+            maintainAspectRatio: true,
             plugins: {
                 legend: {
                     display: false,
@@ -146,6 +169,28 @@ function initChart() {
             }
         }
     });
+
+    function updateAspectRatio() {
+        let newAspectRatio;
+
+        // Use window width to determine the aspect ratio
+        if (window.innerWidth < 768) {
+            newAspectRatio = 1.5; // Square-like for small screens
+        } else if (window.innerWidth < 992) {
+            newAspectRatio = 2; // Square-like for small screens
+        } else {
+            newAspectRatio = 2.5; // Default for large screens
+        }
+
+        // Update chart's aspect ratio
+        chart.options.aspectRatio = newAspectRatio;
+        chart.update();
+    }
+
+    window.addEventListener('resize', updateAspectRatio);
+
+    updateAspectRatio()
+
 }
 
 // Slider Section
@@ -250,7 +295,157 @@ function restartSlideShow() {
     startSlideShow();
 }
 
+const events = [
+    {
+        name: "Cloud Innovation Summit",
+        date: "2024-10-15",
+        speaker: "Jane Doe",
+        status: true
+    },
+    {
+        name: "Blockchain Revolution Conference",
+        date: "2024-11-05",
+        speaker: "Dr. Peter Smith",
+        status: false
+    },
+    {
+        name: "AI in Healthcare Symposium",
+        date: "2024-12-01",
+        speaker: "Dr. Aisha Malik",
+        status: true
+    },
+    {
+        name: "Future of Fintech Forum",
+        date: "2024-10-25",
+        speaker: "John Lee",
+        status: true
+    },
+    {
+        name: "Data Analytics in Business",
+        date: "2024-11-12",
+        speaker: "Rachel Moore",
+        status: true
+    },
+    {
+        name: "Sustainable Energy Expo",
+        date: "2024-09-28",
+        speaker: "Prof. Alan Green",
+        status: true
+    },{
+        name: "Web3 Interfaces Workshop",
+        date: "2024-10-10",
+        speaker: "Kevin Adams",
+        status: false
+    },{
+        name: "Cybersecurity for Startups",
+        date: "2024-11-19",
+        speaker: "Emily Zhang",
+        status: true
+    },{
+        name: "Smart Cities Forum",
+        date: "2024-10-18",
+        speaker: "Dr. Maria Hernandez",
+        status: false
+    },{
+        name: "Tech Safari Mixer",
+        date: "2024-09-30",
+        speaker: "Guest Panel",
+        status: false
+    },
+]
+
+// Accordion
+function createAccordionItem({date, speaker, name, status}) {
+    const accordionItem = document.createElement("div")
+    accordionItem.classList.add('accordion-item')
+
+    accordionItem.innerHTML = `
+         <button class="accordion-header" aria-expanded="false">
+            <span>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.75 8.75L14.25 12L10.75 15.25" stroke="#334155" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                </svg>
+            </span>
+            <span class="text-sm text-primary">${name}</span>
+            <span class="text-xs ${status ? 'success' : 'pending'}">${status ? "Completed" : "In Progress"}</span>
+        </button>
+        <div class="accordion-content">
+           <div class="text-sm text-primary">
+               <p>${speaker}</p>
+               <p>${date}</p>
+           </div>
+        </div>
+    `;
+    return accordionItem
+}
+
+function initAccordion() {
+    const accordion = document.querySelector(".accordion")
+    for (let event of events) {
+        accordion.appendChild(createAccordionItem(event))
+    }
+    setListeners()
+}
+
+function setListeners() {
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+    const accordionContents = document.querySelectorAll('.accordion-item');
+
+    accordionHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const isOpen = header.getAttribute('aria-expanded') === 'true';
+
+            // Close all sections
+            document.querySelectorAll('.accordion-header').forEach(btn => {
+                btn.setAttribute('aria-expanded', 'false');
+                btn.nextElementSibling.style.maxHeight = '0';
+            });
+
+            // Open the clicked section if it was previously closed
+            if (!isOpen) {
+                header.setAttribute('aria-expanded', 'true');
+                header.nextElementSibling.style.maxHeight =
+                    header.nextElementSibling.scrollHeight + 'px';
+            }
+        });
+    });
+    accordionContents.forEach(content => {
+       content.querySelector(".accordion-content").addEventListener("click", () => {
+           const name = content.querySelector("button.accordion-header span:nth-of-type(2)").textContent;
+           const date = content.querySelector(".accordion-content div p:last-of-type").textContent;
+           showModal({name, date})
+       })
+    })
+}
+
+// Modal
+const closeModalBtn = document.querySelector('.modal-header button.close');
+const modal = document.querySelector('.modal');
+const eventNameTag = document.querySelector(".modal-header div h1")
+const eventDescTag = document.querySelector(".modal-header div p")
+
+function initModal() {
+    closeModalBtn.addEventListener("click", hideModal)
+}
+
+function showModal({name, date}) {
+    eventNameTag.textContent = name
+    eventDescTag.textContent = date
+
+    modal.setAttribute('aria-hidden', 'false');
+    closeModalBtn.focus();
+}
+
+function hideModal() {
+    modal.setAttribute('aria-hidden', 'true')
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Sidebar
+    initSidebar()
+
     // Initialize summary
     initSummarySection()
 
@@ -259,4 +454,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize slider
     initSlider()
+
+    // Initialize Accordion
+    initAccordion()
+
+    // Initialize Modal
+    initModal()
 })
