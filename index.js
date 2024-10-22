@@ -420,6 +420,33 @@ function setListeners() {
     })
 }
 
+// Table
+function createTableRow({date, speaker, name, status}) {
+    const row = document.createElement("tr")
+    row.addEventListener("click", () => showModal({name, date}))
+    row.classList.add("text-sm", "text-primary")
+
+    row.innerHTML = `
+        <td>${name}</td>
+        <td>${date}</td>
+        <td>${speaker}</td>
+        <td>
+            <span class="${status ? 'success' : 'pending'}">
+                <span></span>
+                ${status ? "Completed" : "In Progress"}
+            </span>
+        </td>
+    `
+    return row;
+}
+
+function initTable() {
+    const tbody = document.querySelector("#event-history .content table tbody")
+    for (let event of events) {
+        tbody.appendChild(createTableRow(event))
+    }
+}
+
 // Modal
 const closeModalBtn = document.querySelector('.modal-header button.close');
 const modal = document.querySelector('.modal');
@@ -457,6 +484,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize Accordion
     initAccordion()
+
+    // Initialize Table
+    initTable()
 
     // Initialize Modal
     initModal()

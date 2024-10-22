@@ -3,4 +3,13 @@
     --indicator-bottom: 1rem;
     --slide-padding: 1rem;
     --indicator-height: 0.1875rem;
+    --bg-color: #fff;
+    --fg-color: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #383544;
+        --fg-color: #484554;
+    }
 }
